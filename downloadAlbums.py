@@ -24,7 +24,7 @@ def downloadPhotos(outDir, urls):
             urllib.request.urlretrieve(photoUrl, file)
 
 
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 api = VkApi(config.ACCESS_TOKEN)
 users = api.getUsersByUids(config.UIDS)
