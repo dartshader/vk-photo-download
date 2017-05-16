@@ -89,7 +89,7 @@ class VkApi:
         Returns:
             List of album objects(See VK API Docs) as dict
         """
-        return self.callApi('photos.getAlbums', {
+        return self.call_api('photos.getAlbums', {
             'owner_id': ownerId,
             'need_system': int(needSystem),
             'need_covers': int(needCovers)
@@ -106,7 +106,7 @@ class VkApi:
         MAX_PER_REQUEST = 1000
         photos = []
         for offset in range(0, album['size'], MAX_PER_REQUEST):
-            photos += self.callApi('photos.get', {
+            photos += self.call_api('photos.get', {
                 'owner_id': album['owner_id'],
                 'album_id': album['id'],
                 'offset': offset,
