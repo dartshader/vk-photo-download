@@ -36,7 +36,7 @@ for user in users:
     print('%s (%d) - %d albums' % (userName, userId, len(albums)))
 
     for album in albums:
-        outDir = '%s/%s (%d)/%s' % (config.OUT, userName, userId, album['title'])
+        outDir = '%s/%s (%d)/%s' % (config.OUT, userName, userId, album['title'] + ' (' + str(album['id']) + ')')
 
         print('    "%s" - %d photos' % (album['title'], album['size']))
 
