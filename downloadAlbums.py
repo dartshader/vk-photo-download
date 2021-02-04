@@ -1,5 +1,6 @@
 import os
 import urllib.request
+from urllib.parse import urlparse
 import logging
 from pprint import pprint
 from vkapi import VkApi
@@ -18,7 +19,7 @@ def downloadPhotos(outDir, urls):
         os.makedirs(outDir)
         
     for photoUrl in urls:
-        file = '%s/%s' % (outDir, photoUrl.rsplit('/', 1)[-1])
+        file = '%s/%s' % (outDir, os.path.basename(urlparse(photoUrl).path))
         if not os.path.exists(file):
             print('        ',  photoUrl)
             urllib.request.urlretrieve(photoUrl, file)
