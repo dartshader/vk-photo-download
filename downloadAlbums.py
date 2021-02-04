@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import logging
 from pprint import pprint
 from vkapi import VkApi
-
+from pathvalidate import sanitize_filename
 import config
 
 def getPhotoUrls(photos):
@@ -37,7 +37,8 @@ for user in users:
     print('%s (%d) - %d albums' % (userName, userId, len(albums)))
 
     for album in albums:
-        outDir = '%s/%s (%d)/%s' % (config.OUT, userName, userId, album['title'] + ' (' + str(album['id']) + ')')
+        sanitized_album_title = sanitize_filename(album['title'])
+        outDir = '%s/%s (%d)/%s' % (config.OUT, userName, userId, sanitized_album_title + ' (' + str(album['id']) + ')')
 
         print('    "%s" - %d photos' % (album['title'], album['size']))
 
