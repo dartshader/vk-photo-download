@@ -13,7 +13,7 @@ class VkApi:
     
     TOO_MANY_REQ_PER_SECOND_ERR = 6
     API_URL    = "https://api.vk.com/method/"
-    API_VER    = "5.52"
+    API_VER    = "5.81"
 
     def __init__(self, access_token = None):
         """ Constructor

@@ -10,8 +10,8 @@ import config
 def getPhotoUrls(photos):
     photoUrls = []
     for photoItem in photos:
-        maxAvailSize = max([int(x.split('_')[1]) for x in photoItem.keys() if x.startswith("photo_")])
-        photoUrls.append(photoItem['photo_' + str(maxAvailSize)])
+        sizes = photoItem['sizes']
+        photoUrls.append(sizes[-1]['url'])
     return photoUrls
 
 def downloadPhotos(outDir, urls):
