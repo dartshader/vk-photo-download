@@ -1,16 +1,17 @@
 import os
 import urllib.request
+from urllib.parse import urlparse
 import logging
 from pprint import pprint
 from vkapi import VkApi
-
+from pathvalidate import sanitize_filename
 import config
 
 def getPhotoUrls(photos):
     photoUrls = []
     for photoItem in photos:
-        maxAvailSize = max([int(x.split('_')[1]) for x in photoItem.keys() if x.startswith("photo_")])
-        photoUrls.append(photoItem['photo_' + str(maxAvailSize)])
+        sizes = photoItem['sizes']
+        photoUrls.append(sizes[-1]['url'])
     return photoUrls
 
 def downloadPhotos(outDir, urls):
@@ -18,7 +19,7 @@ def downloadPhotos(outDir, urls):
         os.makedirs(outDir)
         
     for photoUrl in urls:
-        file = '%s/%s' % (outDir, photoUrl.rsplit('/', 1)[-1])
+        file = '%s/%s' % (outDir, os.path.basename(urlparse(photoUrl).path))
         if not os.path.exists(file):
             print('        ',  photoUrl)
             urllib.request.urlretrieve(photoUrl, file)
@@ -36,7 +37,8 @@ for user in users:
     print('%s (%d) - %d albums' % (userName, userId, len(albums)))
 
     for album in albums:
-        outDir = '%s/%s (%d)/%s' % (config.OUT, userName, userId, album['title'] + ' (' + str(album['id']) + ')')
+        sanitized_album_title = sanitize_filename(album['title'])
+        outDir = '%s/%s (%d)/%s' % (config.OUT, userName, userId, sanitized_album_title + ' (' + str(album['id']) + ')')
 
         print('    "%s" - %d photos' % (album['title'], album['size']))
 
